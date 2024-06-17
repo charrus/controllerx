@@ -1,11 +1,60 @@
-from cx_const import DefaultActionsMapping, Light
-from cx_core import LightController
+from cx_const import DefaultActionsMapping, Light, Z2MLight
+from cx_core import LightController, Z2MLightController
 from cx_core.integration import EventData
+
+
+class OsramAC025XX00NZ2MJLightController(Z2MLightController):
+    # This mapping works for: AC0251100NJ / AC0251400NJ / AC0251600NJ / AC0251700NJ
+    # (different models are just different colours)
+
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            # Click Arrow up
+            "on": Z2MLight.ON,
+            # Hold Arrow Up
+            "brightness_move_up": Z2MLight.HOLD_BRIGHTNESS_UP,
+            # Release Arrow Up
+            "brightness_stop": Z2MLight.RELEASE,
+            # Click Circle button
+            "brightness_move_to_level": Z2MLight.BRIGHTNESS_FROM_CONTROLLER_LEVEL,
+            "color_temperature_move": Z2MLight.COLORTEMP_FROM_CONTROLLER,
+            # Hold Circle button
+            "move_to_saturation": None,
+            "hue_move": Z2MLight.HOLD_COLOR_TEMP_UP,
+            # Release Circle button
+            "hue_stop": Z2MLight.RELEASE,
+            # Click Arrow down
+            "off": Z2MLight.OFF,
+            # Hold Arrow down
+            "brightness_move_down": Z2MLight.HOLD_BRIGHTNESS_DOWN,
+        }
 
 
 class OsramAC025XX00NJLightController(LightController):
     # This mapping works for: AC0251100NJ / AC0251400NJ / AC0251600NJ / AC0251700NJ
     # (different models are just different colours)
+
+    def get_z2m_actions_mapping(self) -> DefaultActionsMapping:
+        return {
+            # Click Arrow up
+            "on": Light.ON,
+            # Hold Arrow Up
+            "brightness_move_up": Light.HOLD_BRIGHTNESS_UP,
+            # Release Arrow Up
+            "brightness_stop": Light.RELEASE,
+            # Click Circle button
+            "brightness_move_to_level": Light.BRIGHTNESS_FROM_CONTROLLER_LEVEL,
+            "color_temperature_move": Light.COLORTEMP_FROM_CONTROLLER,
+            # Hold Circle button
+            "move_to_saturation": None,
+            "hue_move": Light.HOLD_COLOR_TEMP_UP,
+            # Release Circle button
+            "hue_stop": Light.RELEASE,
+            # Click Arrow down
+            "off": Light.OFF,
+            # Hold Arrow down
+            "brightness_move_down": Light.HOLD_BRIGHTNESS_DOWN,
+        }
 
     def get_deconz_actions_mapping(self) -> DefaultActionsMapping:
         return {
